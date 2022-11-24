@@ -1,0 +1,27 @@
+Assume u have centos machine up and running
+
+#Instalation
+    sudo yum update
+    sudo yum install httpd httpd-manual.noarch
+    sudo systemctl enable --now httpd
+    sudo firewall-cmd --add-service=http --permanent
+    sudo firewall-cmd --reload
+    curl -s http://localhost:80 >> /dev/null;  if [[ $? != "0" ]] ;then echo NOT OK ; else echo OK; fi
+
+
+#default directories:
+    Page content >> /var/www/html/[ index.html if not found apache test page will be served ]
+    root dir >> /etc/httpd
+    main config file >> /etc/http/conf/httpd.conf
+
+#config file content
+    Global configuration
+    Main server configuration
+    Virtual server configuration
+
+#config file important directives
+    Serverroot
+    DocumentRoot
+    listen
+    include
+
