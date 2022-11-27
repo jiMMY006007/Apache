@@ -21,7 +21,46 @@ Assume u have centos machine up and running
 
 #config file important directives
     Serverroot
-    DocumentRoot
+    DocumentRoot >> web content
     listen
     include
+
+#Change main website DocumentRoot
+    DocumentRoot /mnt/mainwebsite
+    echo welcome >> /mnt/mainwebsite/index.html
+    semanage fcontext -a -t "http_sys_content_t"  "/mnt/mainwebsite(/.*)?"
+    restorecon -Rv /mnt/mainwebsite
+    systemctl restart httpd
+
+#add access control list
+    setfacl -R -m g:dev:rwX /var/www/html
+    setfacl -R -m d:g:dev:rwx /var/www/html
+
+#Create Virtual host
+    mkdir /var/www/sales.com
+    mkdir /var/www/marketing.com
+    touch /etc/httpd/conf.d/01-sales.conf
+    touch /etc/httpd/conf.d/02-marketing.conf
+
+    vim /etc/httpd/conf.d/01-sales.conf
+        
+        <Directory "/var/www/sales.com">
+            AllowOverride None
+            Require all granted
+        </Directory>
+
+        <VirtualHost *:80>
+            ServerName sales.com
+            ServerAlias www.sales.com
+            DocumentRoot /var/www/sales.com
+            ErrorLog /var/log/httpd/sales.com-error.log
+            CustomLog /var/log/httpd/sales.com-requests.log combined
+            ServerAdmin ahmedgamal@gmail.com
+        </VirtualHost>
+
+    add record in hosts file and test using your browser
+    
+
+    
+
 
