@@ -8,7 +8,6 @@ Assume u have centos machine up and running
     sudo firewall-cmd --reload
     curl -s http://localhost:80 >> /dev/null;  if [[ $? != "0" ]] ;then echo NOT OK ; else echo OK; fi
 
-
 #default directories:
     Page content >> /var/www/html/[ index.html if not found apache test page will be served ]
     root dir >> /etc/httpd
@@ -59,8 +58,14 @@ Assume u have centos machine up and running
         </VirtualHost>
 
     add record in hosts file and test using your browser
-    
 
-    
-
+#create and use certificate "SelfSigned"
+    sudo yum install openssl mod_ssl
+    sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/pki/tls/private/server.lab.local.key -x509 -days 365 -out /etc/pki/tls/certs/server.lab.local.cert
+    sudo vim /etc/httpd/conf.d/01-sales.conf
+        #port 443
+        SSLEngine on
+        SSLCertificateFile /etc/pki/tls/certs/server.lab.local.cert
+        SSLCertificateKeyFile /etc/pki/tls/private/server.lab.local.key
+    sudo systemctl restart httpd
 
