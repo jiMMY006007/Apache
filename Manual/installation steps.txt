@@ -66,8 +66,8 @@ Assume u have centos machine up and running
         <VirtualHost *:443>
             ServerName demo.example.com
             SSLEngine on
-            SSLCertificateFile /etc/pki/tls/certs/demo.example.com.crt
-            SSLCertificateKeyFile /etc/pki/tls/private/demo.example.com.key
+            SSLCertificateFile /etc/pki/tls/certs/server.lab.local.cert
+            SSLCertificateKeyFile /etc/pki/tls/private/server.lab.local.key
         </VirtualHost>
     sudo systemctl restart httpd
 
