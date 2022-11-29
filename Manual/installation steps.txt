@@ -63,9 +63,19 @@ Assume u have centos machine up and running
     sudo yum install openssl mod_ssl
     sudo openssl req -newkey rsa:2048 -nodes -keyout /etc/pki/tls/private/server.lab.local.key -x509 -days 365 -out /etc/pki/tls/certs/server.lab.local.cert
     sudo vim /etc/httpd/conf.d/01-sales.conf
-        #port 443
-        SSLEngine on
-        SSLCertificateFile /etc/pki/tls/certs/server.lab.local.cert
-        SSLCertificateKeyFile /etc/pki/tls/private/server.lab.local.key
+        <VirtualHost *:443>
+            ServerName demo.example.com
+            SSLEngine on
+            SSLCertificateFile /etc/pki/tls/certs/demo.example.com.crt
+            SSLCertificateKeyFile /etc/pki/tls/private/demo.example.com.key
+        </VirtualHost>
     sudo systemctl restart httpd
+
+#install php-module
+
+    sudo dnf install epel-release
+    sudo dnf install dnf-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    sudo dnf module reset php
+    sudo dnf install php php-mysqlnd
+    dnf install php-gd php-zip php-mcrypt php-json php-xml php-gettext php-curl php-intl 
 
