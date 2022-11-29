@@ -78,4 +78,4 @@ Assume u have centos machine up and running
     sudo dnf module reset php
     sudo dnf install php php-mysqlnd
     dnf install php-gd php-zip php-mcrypt php-json php-xml php-gettext php-curl php-intl 
-
+    
